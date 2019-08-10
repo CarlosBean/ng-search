@@ -1,0 +1,60 @@
+.sidebar {
+    width: 300px;
+    overflow: hidden;
+    padding: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.nav-item {
+    list-style: none;
+    overflow: hidden;
+}
+
+.btn {
+    display: block;
+    padding: 16px 20px;
+    background-color: var(--primary);
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn i {
+    margin-right: 10px;
+}
+
+.submenu {
+    background-color: var(--dark);
+    overflow: hidden;
+    transition: max-height 0.3s;
+    max-height: 0;
+}
+
+.submenu a {
+    display: block;
+    padding: 16px 26px;
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    margin: 4px 0;
+    position: relative;
+}
+
+.activeOption {
+    border-left: 6px solid var(--danger);
+    padding-left: 20px !important;
+}
+
+.activeMenu {
+    opacity: 0.5;
+}
+
+.nav-item.active>.btn {
+    border-top-color: var(--info);
+    background-color: var(--info);
+}
+
+.openSubmenu {
+    max-height: 10em;
+}

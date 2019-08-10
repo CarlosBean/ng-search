@@ -1,0 +1,25 @@
+<ul class="sidebar">
+    <li class="nav-item" routerLinkActive="active">
+        <div class="btn" (click)="chooseMenu('users')">
+            <i class="fas fa-user fa-sm fa-fw"></i>Users
+        </div>
+        <div class="submenu" [class.openSubmenu]="options.users">
+            <a routerLink="users" routerLinkActive="activeOption">Users</a>
+            <a routerLink="posts" routerLinkActive="activeOption">Posts</a>
+        </div>
+    </li>
+    <li class="nav-item">
+        <div class="btn" (click)="chooseMenu('posts')"><i class="fas fa-comment fa-sm fa-fw"></i>Posts</div>
+        <div class="submenu" [class.openSubmenu]="options.posts">
+            <a href="#" class="nav-link active">Admins</a>
+            <a href="#" class="nav-link active">Employees</a>
+        </div>
+    </li>
+    <li class="nav-item">
+        <div class="btn" (click)="chooseMenu('comments')"><i class="fas fa-camera fa-sm fa-fw"></i>Comments</div>
+        <div class="submenu" [class.openSubmenu]="options.comments">
+            <a href="#" class="nav-link active">Admins</a>
+            <a href="#" class="nav-link active">Employees</a>
+        </div>
+    </li>
+</ul>
