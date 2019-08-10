@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output, SimpleChanges, OnChanges, ContentChild, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatTable } from '@angular/material';
+import { MatTable, MatTableDataSource } from '@angular/material';
+import { LocalStorageService } from 'ngx-webstorage';
 
 @Component({
   selector: 'app-table',
@@ -13,6 +14,8 @@ export class TableComponent implements OnInit, OnChanges {
   @Input() displayedColumns: string[];
   @ViewChild('table', { static: false }) table: MatTable<any>;
   @Output() eventRow = new EventEmitter<any>();
+
+  dataSource: any;
 
   isloading = true;
   menuButtons = [];
@@ -28,7 +31,7 @@ export class TableComponent implements OnInit, OnChanges {
     draft: ['edit', 'delete'],
   };
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, public localStorage: LocalStorageService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.elementData) {
@@ -44,15 +47,24 @@ export class TableComponent implements OnInit, OnChanges {
         }
       }
 
+      // added fixed status for test
       if (this.getModuleName() === 'users') {
         object.status = 'active';
       }
     });
 
+    this.dataSource = new MatTableDataSource(this.elementData);
     this.table ? this.table.renderRows() : console.log('TABLE NOT INITIALIZED');
   }
 
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
   ngOnInit() {
+    this.localStorage.observe('searchText').subscribe(value => {
+      this.applyFilter(value);
+    });
   }
 
   setMenuButtons(status: string) {

@@ -1,7 +1,7 @@
 <div class="shadow-table">
     <mat-paginator [pageSize]="10" showFirstLastButtons></mat-paginator>
 
-    <table #table class="table" mat-table [dataSource]="elementData">
+    <table #table class="table" mat-table [dataSource]="dataSource">
 
         <!-- dynamic columns -->
         <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
