@@ -1,0 +1,39 @@
+.table {
+    width: 100%;
+    overflow: auto;
+}
+
+::ng-deep.mat-footer-row,
+tr.mat-row {
+    height: 70px;
+}
+
+::ng-deep.mat-paginator,
+.mat-table {
+    background: none;
+}
+
+.shadow-table {
+    box-shadow: var(--shadow-panel) !important;
+}
+
+.active {
+    padding: 8px 25px;
+    background-color: var(--success);
+    border-radius: 20px;
+    color: white;
+}
+
+.staging {
+    padding: 8px 25px;
+    background-color: var(--warning);
+    border-radius: 20px;
+    color: white;
+}
+
+.revisions {
+    padding: 8px 25px;
+    background-color: var(--danger);
+    border-radius: 20px;
+    color: white;
+}
