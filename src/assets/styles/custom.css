@@ -8,10 +8,12 @@
     --danger: #dc3545;
     --light: #f8f9fa;
     --dark: #343a40;
+    --shadow-panel: 0px 2px 12px rgba(0, 26, 112, 0.1);
 }
 
 body {
-    font-family: 'Rubik', sans-serif;
+    /*font-family: 'Rubik', sans-serif;*/
+    font-family: 'Nunito', sans-serif;
 }
 
 .btn.disabled,
@@ -687,3 +689,50 @@ fieldset:disabled a.btn {
 .btn-block+.btn-block {
     margin-top: 0.5rem;
 }
+
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+    display: inline-block;
+    height: 38px;
+    padding: 0 30px;
+    color: var(--primary);
+    text-align: center;
+    font-size: 0.875rem;
+    line-height: 38px;
+    letter-spacing: inherit;
+    text-transform: capitalize;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: transparent;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -o-border-radius: 8px;
+    border: transparent;
+    cursor: pointer;
+    outline: none;
+}
+
+/* button:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+input[type="button"]:hover,
+button:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus,
+input[type="button"]:focus {
+    color: var(--hover-color);
+    border-color: transparent;
+    outline: 0;
+}
+
+button:disabled,
+input[type="submit"]:disabled,
+input[type="reset"]:disabled,
+input[type="button"]:disabled {
+    color: var(--text-color-normal);
+    border-color: var(--text-color-softer);
+    outline: 0;
+} */
