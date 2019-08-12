@@ -9,6 +9,7 @@ import { PostService } from '../post-service/post.service';
 export class PostListComponent implements OnInit {
 
   posts: any = [];
+  columns = ['id', 'userId', 'title', 'body'];
 
   constructor(private postService: PostService) { }
 
