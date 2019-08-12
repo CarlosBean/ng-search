@@ -1,4 +1,10 @@
+<app-modal [settings]="mainSettings" (exit)="openModal = $event" *ngIf="openModal">
+    <ng-template>
+        <app-user-update [objectId]="objectId"></app-user-update>
+    </ng-template>
+</app-modal>
+
 <div>
     <h3>Users List</h3>
-    <app-table [elementData]="users" [displayedColumns]="columns"></app-table>
+    <app-table [elementData]="users" [displayedColumns]="columns" (action)="getTableAction($event)"></app-table>
 </div>
