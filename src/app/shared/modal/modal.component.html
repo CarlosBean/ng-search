@@ -1,0 +1,13 @@
+<div #modal class="modal" id="modal" role="dialog">
+    <div class="modal-header">
+        <span>{{ settings.title }}</span>
+        <div (click)="closeModal()"><i class="fas fa-times fa-sm fa-fw"></i></div>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngTemplateOutlet="template"></ng-container>
+    </div>
+    <div class="modal-footer">
+        {{ settings.footer }}
+    </div>
+</div>
+<div class="modal-overlay" id="modal-overlay"></div>
