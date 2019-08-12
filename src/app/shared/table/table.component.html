@@ -20,7 +20,10 @@
 
                     <mat-menu class="text-center" #menu="matMenu">
                         <ng-template matMenuContent>
-                            <button class="btn-block" *ngFor="let button of menuButtons">{{ button }}</button>
+                            <button class="btn-block" *ngFor="let button of menuButtons"
+                                (click)="emitAction(button, element.id)">
+                                {{ button }}
+                            </button>
                         </ng-template>
                     </mat-menu>
                 </div>

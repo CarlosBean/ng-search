@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, EventEmitter, Output, SimpleChanges, OnChanges, ContentChild, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, SimpleChanges, OnChanges, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatTable, MatTableDataSource } from '@angular/material';
-import { LocalStorageService } from 'ngx-webstorage';
+import { LocalStorageService, LocalStorage } from 'ngx-webstorage';
 
 @Component({
   selector: 'app-table',
@@ -12,8 +12,10 @@ export class TableComponent implements OnInit, OnChanges {
 
   @Input() elementData: any;
   @Input() displayedColumns: string[];
+  @Output() action = new EventEmitter<any>();
   @ViewChild('table', { static: false }) table: MatTable<any>;
-  @Output() eventRow = new EventEmitter<any>();
+
+  @LocalStorage() searchPlaceholder: any;
 
   dataSource: any;
 
@@ -39,6 +41,10 @@ export class TableComponent implements OnInit, OnChanges {
     }
   }
 
+  updateSearchPlaceholder() {
+    this.searchPlaceholder = this.displayedColumns;
+  }
+
   buildTableData() {
     this.elementData.forEach((object: any) => {
       for (const key in object) {
@@ -57,11 +63,12 @@ export class TableComponent implements OnInit, OnChanges {
     this.table ? this.table.renderRows() : console.log('TABLE NOT INITIALIZED');
   }
 
-  applyFilter(filterValue: string) {
+  applyFilter(filterValue = '') {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   ngOnInit() {
+    this.updateSearchPlaceholder();
     this.localStorage.observe('searchText').subscribe(value => {
       this.applyFilter(value);
     });
@@ -91,8 +98,8 @@ export class TableComponent implements OnInit, OnChanges {
     return this.router.url.substring(1, this.router.url.length);
   }
 
-  emitEventRow($event: any) {
-    this.eventRow.emit({ event: $event, action: 'click' });
+  emitAction(action: string, data: number) {
+    this.action.emit({ action, data });
   }
 
 }
