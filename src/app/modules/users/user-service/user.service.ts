@@ -15,4 +15,8 @@ export class UserService {
   getAll(): Observable<any> {
     return this.http.get(this.endpoint).pipe(map(res => res, err => err));
   }
+
+  delete(id: any) {
+    return this.http.delete(this.endpoint + '/' + id).pipe(map(res => res, err => err));
+  }
 }
