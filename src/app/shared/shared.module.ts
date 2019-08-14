@@ -8,7 +8,6 @@ import { ModalComponent } from './modal/modal.component';
 import { FormInputComponent } from './form-input/form-input.component';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import { DynamicFieldDirective } from './dynamic-field/dynamic-field.directive';
-import { NO_ERRORS_SCHEMA } from '@angular/compiler/src/core';
 
 @NgModule({
     declarations: [
