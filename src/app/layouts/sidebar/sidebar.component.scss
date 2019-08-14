@@ -25,7 +25,7 @@
 }
 
 .submenu {
-    background-color: var(--dark);
+    background-color: var(--white);
     overflow: hidden;
     transition: max-height 0.3s;
     max-height: 0;
@@ -35,9 +35,10 @@
     display: block;
     padding: 16px 26px;
     text-decoration: none;
-    color: white;
+    border-bottom: 1px solid var(--outline);
+    color: var(--dark);
     font-size: 14px;
-    margin: 4px 0;
+    // margin: 4px 0;
     position: relative;
 }
 

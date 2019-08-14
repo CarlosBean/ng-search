@@ -15,12 +15,14 @@
 }
 
 .search-input {
-    border-bottom: 1px solid var(--primary);
+    border-left: 1px solid var(--outline);
+    border-bottom: 1px solid var(--outline);
     display: flex;
     align-items: center;
 }
 
 .search-input i {
+    margin-left: 1em;
     color: var(--dark);
 }
 

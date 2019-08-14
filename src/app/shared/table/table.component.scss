@@ -1,3 +1,9 @@
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .table {
     width: 100%;
     overflow: auto;
@@ -6,11 +12,6 @@
 ::ng-deep.mat-footer-row,
 tr.mat-row {
     height: 70px;
-}
-
-::ng-deep.mat-paginator,
-.mat-table {
-    background: none;
 }
 
 .shadow-table {

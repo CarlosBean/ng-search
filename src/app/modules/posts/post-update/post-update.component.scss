@@ -1,0 +1,10 @@
+.inner-container {
+    padding: 1.5em;
+}
+
+::ng-deep app-dynamic-form form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    grid-gap: 15px;
+}

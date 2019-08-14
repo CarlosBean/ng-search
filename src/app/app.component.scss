@@ -7,7 +7,9 @@
 
 .main-window {
     padding: 1em;
-    border-left: 1px solid var(--primary);
+    margin-top: 1px;
+    background-color: aliceblue;
+    border-left: 1px solid var(--outline);
     overflow-y: auto;
     max-height: calc(100vh - (50px + 2em));
 }
