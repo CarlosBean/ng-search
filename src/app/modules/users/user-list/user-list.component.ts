@@ -3,36 +3,48 @@ import { UserService } from '../user-service/user.service';
 
 @Component({
   selector: 'app-user-list',
-  templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.scss']
+  template: `
+    <app-user-update
+      [objectId]="objectId"
+      (action)="openModal = $event"
+      *ngIf="openModal">
+    </app-user-update>
+
+    <app-table
+      [elementData]="elementData"
+      [displayedColumns]="columns"
+      (action)="getTableAction($event)">
+    </app-table>
+  `,
 })
 export class UserListComponent implements OnInit {
 
-  users = [];
+  elementData = [];
   columns = ['id', 'status', 'username', 'name', 'email', 'website', 'action'];
   openModal = false;
   objectId = null;
-
-  mainSettings = {
-    title: 'Create an User',
-    footer: 'This component will be for create and update.'
-  };
 
   constructor(private userService: UserService) { }
 
   ngOnInit() {
     this.userService.getAll().subscribe(res => {
-      this.users = res;
+      this.elementData = res;
     }, err => console.error(err));
   }
 
   getTableAction(event: any) {
-    if (event.action === 'edit') {
-      this.openModal = true;
-      this.objectId = event.data;
-      this.mainSettings.title = `Update user ${this.objectId}`;
-    } else if (event.action === 'delete') {
-      this.delete(event.data);
+    switch (event.action) {
+      case 'create':
+        this.openModal = true;
+        this.objectId = null;
+        break;
+      case 'edit':
+        this.openModal = true;
+        this.objectId = event.data;
+        break;
+      case 'delete':
+        this.delete(event.data);
+        break;
     }
   }
 
