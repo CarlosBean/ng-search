@@ -7,7 +7,13 @@
         <ng-container *ngTemplateOutlet="template"></ng-container>
     </div>
     <div class="modal-footer">
-        {{ settings.footer }}
+        <div>{{ settings.footer }}</div>
+        <div>
+            <button *ngFor="let button of settings.buttons" [ngClass]="getButtonStyle(button)"
+                (click)="sendAction(button.action)" class="m-left">
+                {{ button.name }}
+            </button>
+        </div>
     </div>
 </div>
 <div class="modal-overlay" id="modal-overlay"></div>

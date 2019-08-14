@@ -1,8 +1,15 @@
 import { Component, OnInit, ContentChild, TemplateRef, Input, HostListener, Output, EventEmitter } from '@angular/core';
 
-export interface ModalSettings {
+export interface IModalButton {
+  name: string;
+  action: string;
+  class?: string;
+}
+
+export interface IModalSettings {
   title: string;
   footer: string;
+  buttons: IModalButton[];
 }
 
 @Component({
@@ -13,23 +20,35 @@ export interface ModalSettings {
 
 export class ModalComponent implements OnInit {
 
-  @Input() settings: ModalSettings;
-  @Output() exit = new EventEmitter<boolean>();
+  @Input() settings: IModalSettings;
+  @Output() action = new EventEmitter<any>();
   @ContentChild(TemplateRef, { static: false }) template: TemplateRef<any>;
 
   constructor() { }
 
   @HostListener('document:keydown.escape', ['$event'])
   onKeydownHandler(event: KeyboardEvent) {
-    this.exit.emit(false);
+    this.action.emit(false);
   }
 
   ngOnInit() {
   }
 
   closeModal() {
-    this.exit.emit(false);
-    // document.querySelector('#modal').classList.toggle('closed');
-    // document.querySelector('#modal-overlay').classList.toggle('closed');
+    this.action.emit(false);
+  }
+
+  getButtonStyle(button: IModalButton): string {
+    const btnActions = {
+      draft: 'btn-primary',
+      save: 'btn-success',
+      back: 'btn-secondary'
+    };
+
+    return button.class || btnActions[button.action];
+  }
+
+  sendAction(action: string) {
+    this.action.emit(action);
   }
 }
