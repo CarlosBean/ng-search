@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output, SimpleChanges, OnChanges, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatTable, MatTableDataSource } from '@angular/material';
+import { MatTable, MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { LocalStorageService, LocalStorage } from 'ngx-webstorage';
 
 @Component({
@@ -14,6 +14,8 @@ export class TableComponent implements OnInit, OnChanges {
   @Input() displayedColumns: string[];
   @Output() action = new EventEmitter<any>();
   @ViewChild('table', { static: false }) table: MatTable<any>;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   @LocalStorage() searchPlaceholder: any;
 
@@ -38,7 +40,16 @@ export class TableComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.elementData) {
       this.buildTableData();
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
     }
+  }
+
+  ngOnInit() {
+    this.updateSearchPlaceholder();
+    this.localStorage.observe('searchText').subscribe(value => {
+      this.applyFilter(value);
+    });
   }
 
   updateSearchPlaceholder() {
@@ -67,21 +78,14 @@ export class TableComponent implements OnInit, OnChanges {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  ngOnInit() {
-    this.updateSearchPlaceholder();
-    this.localStorage.observe('searchText').subscribe(value => {
-      this.applyFilter(value);
-    });
-  }
-
-  setMenuButtons(status: string) {
+  setMenuButtons(status = '') {
     status = status.toLowerCase();
     const role = 1;
     const modules = ['users', 'posts', 'comments'];
 
     if (role === 1) {
       if (modules.includes(this.getModuleName())) {
-        this.menuButtons = this.adminMenu[status] || ['delete'];
+        this.menuButtons = this.adminMenu[status] || ['edit', 'delete'];
       }
     } else {
       this.menuButtons = this.OAMenu[status] || ['delete'];
@@ -94,11 +98,11 @@ export class TableComponent implements OnInit, OnChanges {
     }
   }
 
-  getModuleName() {
+  getModuleName(): string {
     return this.router.url.substring(1, this.router.url.length);
   }
 
-  emitAction(action: string, data: number) {
+  emitAction(action: string, data?: number) {
     this.action.emit({ action, data });
   }
 

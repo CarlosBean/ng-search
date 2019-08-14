@@ -1,11 +1,15 @@
+<div class="main-header">
+    <h3>{{ getModuleName() | titlecase }} List</h3>
+    <button class="btn-primary" (click)="emitAction('create')">Add new</button>
+</div>
 <div class="shadow-table">
     <mat-paginator [pageSize]="10" showFirstLastButtons></mat-paginator>
 
-    <table #table class="table" mat-table [dataSource]="dataSource">
+    <table #table class="table" mat-table matSort [dataSource]="dataSource">
 
         <!-- dynamic columns -->
         <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
-            <th mat-header-cell *matHeaderCellDef> {{ column | titlecase }} </th>
+            <th mat-header-cell mat-sort-header *matHeaderCellDef> {{ column | titlecase }} </th>
             <td mat-cell *matCellDef="let element">
 
                 <!-- cell data -->
