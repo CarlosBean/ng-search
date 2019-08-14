@@ -19,4 +19,8 @@ export class UserService {
   delete(id: any) {
     return this.http.delete(this.endpoint + '/' + id).pipe(map(res => res, err => err));
   }
+
+  getById(id: any) {
+    return this.http.get(this.endpoint + '/' + id).pipe(map(res => res, err => err));
+  }
 }
