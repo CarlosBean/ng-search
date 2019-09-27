@@ -15,18 +15,17 @@ export class TopbarComponent implements OnInit {
 
   ngOnInit() {
     this.localStorage.observe('searchPlaceholder').subscribe((columns: string[]) => {
-      const aux = [...columns];
+      const aux = [...columns]; // this variable is for avoid bug from local storage service
       this.setPlaceholder(aux);
     });
   }
 
   setPlaceholder(columns: string[]) {
-    let text = 'Search by ';
     if (columns.length > 3) {
-      text += `${columns.splice(0, 3).join(', ')}, etc...`;
-    } else {
-      text += `${columns.join(', ')}`;
+      columns = columns.splice(0, 3);
+      columns.push('etc...');
     }
-    this.placeholder = text;
+
+    this.placeholder = `Search by ${columns.join(', ')}`;
   }
 }

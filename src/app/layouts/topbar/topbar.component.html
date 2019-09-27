@@ -1,11 +1,12 @@
-<div class="container">
-    <div class="sidebar-header">
-        <h4>NG SEARCH</h4>
+<div class="topbar-container">
+    <div class="search-input">
+        <i class="fas fa-search fa-fw"></i>
+        <input [(ngModel)]="searchText" [placeholder]="placeholder">
     </div>
-    <div class="search-bar">
-        <div class="search-input">
-            <i class="fas fa-search fa-fw"></i>
-            <input [(ngModel)]="searchText" [placeholder]="placeholder">
-        </div>
+    <div class="right-menu">
+        <button>
+            <i class="fas fa-bell fa-lg fa-fw"></i>
+        </button>
+        <div class="avatar"></div>
     </div>
 </div>

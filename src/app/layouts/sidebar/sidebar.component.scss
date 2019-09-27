@@ -1,9 +1,20 @@
 .sidebar {
-    width: 300px;
+    width: 100%;
     overflow: hidden;
     padding: 0;
     margin-top: 0;
     margin-bottom: 0;
+}
+
+.sidebar-header {
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-header h4 {
+    padding: 0 1em;
+    margin: 0;
 }
 
 .nav-item {
@@ -20,8 +31,12 @@
     cursor: pointer;
 }
 
-.btn i {
+.btn .icon {
     margin-right: 10px;
+}
+
+.btn .angle {
+    float: right;
 }
 
 .submenu {
@@ -29,17 +44,19 @@
     overflow: hidden;
     transition: max-height 0.3s;
     max-height: 0;
+    padding-left: 0;
 }
 
-.submenu a {
+.submenu li {
     display: block;
     padding: 16px 26px;
     text-decoration: none;
     border-bottom: 1px solid var(--outline);
     color: var(--dark);
     font-size: 14px;
-    // margin: 4px 0;
     position: relative;
+    outline: none;
+    cursor: pointer;
 }
 
 .activeOption {
@@ -56,6 +73,6 @@
     background-color: var(--info);
 }
 
-.openSubmenu {
+.open {
     max-height: 10em;
 }

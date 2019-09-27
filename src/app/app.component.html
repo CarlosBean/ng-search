@@ -1,7 +1,7 @@
-<app-topbar></app-topbar>
-<div class="container">
-    <app-sidebar></app-sidebar>
-    <div class="main-window">
+<div class="grid-container">
+    <app-sidebar class="sidenav"></app-sidebar>
+    <app-topbar class="topbar"></app-topbar>
+    <main class="main">
         <router-outlet (activate)="onActivate()"></router-outlet>
-    </div>
+    </main>
 </div>

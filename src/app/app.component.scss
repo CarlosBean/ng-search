@@ -1,15 +1,25 @@
-.container {
-    height: calc(100vh - 50px);
+.grid-container {
     display: grid;
-    grid-template-columns: 300px 1fr;
-    grid-template-rows: 1fr;
+    grid-template-columns: 240px 1fr;
+    grid-template-rows: 50px 1fr;
+    grid-template-areas: "sidenav topbar""sidenav main";
+    height: 100vh;
 }
 
-.main-window {
-    padding: 1em;
+.sidenav {
+    grid-area: sidenav;
+}
+
+.topbar {
+    grid-area: topbar;
+}
+
+.main {
+    grid-area: main;
+    padding: 0 1em 1em 1em;
     margin-top: 1px;
     background-color: aliceblue;
     border-left: 1px solid var(--outline);
     overflow-y: auto;
-    max-height: calc(100vh - (50px + 2em));
+    max-height: calc(100vh - (50px + 1em));
 }
