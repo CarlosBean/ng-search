@@ -8,6 +8,7 @@ import { ModalComponent } from './modal/modal.component';
 import { FormInputComponent } from './form-input/form-input.component';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import { DynamicFieldDirective } from './dynamic-field/dynamic-field.directive';
+import { AlertComponent } from './alert/alert.component';
 
 @NgModule({
     declarations: [
@@ -15,14 +16,15 @@ import { DynamicFieldDirective } from './dynamic-field/dynamic-field.directive';
         ModalComponent,
         FormInputComponent,
         DynamicFormComponent,
-        DynamicFieldDirective
+        DynamicFieldDirective,
+        AlertComponent
     ],
     imports: [
         CommonModule,
         HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
-        MaterialModule
+        MaterialModule,
     ],
     exports: [
         TableComponent,
@@ -32,7 +34,8 @@ import { DynamicFieldDirective } from './dynamic-field/dynamic-field.directive';
         HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
-        MaterialModule
+        MaterialModule,
+        AlertComponent
     ],
     entryComponents: [
         FormInputComponent,
