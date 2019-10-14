@@ -1,19 +1,15 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, HostListener } from '@angular/core';
 
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { FieldConfig } from '../../models/field-config.interface';
 
 @Component({
   exportAs: 'dynamicForm',
   selector: 'app-dynamic-form',
-  styleUrls: ['./dynamic-form.component.scss'],
   template: `
-    <form
-      class="dynamic-form"
-      [formGroup]="form"
-      (submit)="handleSubmit($event)">
-      <ng-container
-        *ngFor="let field of config;"
+    <form [formGroup]="form"
+    (ngSubmit)="handleSubmit($event)">
+      <ng-container *ngFor="let field of config;"
         appDynamicField
         [config]="field"
         [group]="form">
@@ -23,11 +19,8 @@ import { FieldConfig } from '../../models/field-config.interface';
 })
 export class DynamicFormComponent implements OnChanges, OnInit {
 
-  @Input()
-  config: FieldConfig[] = [];
-
-  @Output()
-  submit: EventEmitter<any> = new EventEmitter<any>();
+  @Input() config: FieldConfig[] = [];
+  @Output() submit: EventEmitter<any> = new EventEmitter<any>();
 
   form: FormGroup;
 
@@ -37,6 +30,13 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   get value() { return this.form.value; }
 
   constructor(private fb: FormBuilder) { }
+
+  @HostListener('window:click', ['$event'])
+  clickEvent(event: any) {
+    if (event.target.id === 'modal-submit') {
+      this.validateAllFormFields(this.form);
+    }
+  }
 
   ngOnInit() {
     this.form = this.createGroup();
@@ -57,7 +57,6 @@ export class DynamicFormComponent implements OnChanges, OnInit {
           const config = this.config.find((control) => control.name === name);
           this.form.addControl(name, this.createControl(config));
         });
-
     }
   }
 
@@ -75,6 +74,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   handleSubmit(event: Event) {
     event.preventDefault();
     event.stopPropagation();
+    this.validateAllFormFields(this.form);
     this.submit.emit(this.value);
   }
 
@@ -101,4 +101,14 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     }, 0);
   }
 
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      }
+    });
+  }
 }
