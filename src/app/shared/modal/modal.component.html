@@ -1,6 +1,6 @@
 <div #modal class="modal" id="modal" role="dialog">
     <div class="modal-header">
-        <span>{{ settings.title }}</span>
+        <h2>{{ settings.title }}</h2>
         <div (click)="closeModal()"><i class="fas fa-times fa-sm fa-fw"></i></div>
     </div>
     <div class="modal-body">
@@ -10,7 +10,7 @@
         <div>{{ settings.footer }}</div>
         <div>
             <button *ngFor="let button of settings.buttons" [ngClass]="getButtonStyle(button)"
-                (click)="sendAction(button.action)" class="m-left">
+                (click)="sendAction(button.action)" id="modal-submit" class="m-left">
                 {{ button.name }}
             </button>
         </div>

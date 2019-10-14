@@ -19,8 +19,7 @@
         justify-content: space-between;
         padding: 0 1em;
         border-radius: 8px 8px 0 0;
-        color: var(--white);
-        background-color: var(--info);
+        border-bottom: 1px solid var(--gray-400);
     }
 
     &-body {
@@ -35,8 +34,7 @@
         justify-content: space-between;
         padding: 0 1em;
         border-radius: 0 0 8px 8px;
-        color: var(--white);
-        background-color: var(--info);
+        border-top: 1px solid var(--gray-400);
     }
 
     &-overlay {
