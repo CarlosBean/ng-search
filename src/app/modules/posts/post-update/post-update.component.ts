@@ -3,7 +3,8 @@ import { Validators } from '@angular/forms';
 import { FieldConfig } from '../../../models/field-config.interface';
 import { DynamicFormComponent } from 'src/app/shared/dynamic-form/dynamic-form.component';
 import { PostService } from '../post-service/post.service';
-import { UserService } from '../../users/user-service/user.service';
+import { IPost } from 'src/app/models/post.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-post-update',
@@ -14,8 +15,7 @@ import { UserService } from '../../users/user-service/user.service';
         <div class="inner-container">
           <app-dynamic-form
             [config]="config"
-            #form="dynamicForm"
-            (submit)="submit($event)">
+            #form="dynamicForm">
           </app-dynamic-form>
         </div>
       </ng-template>
@@ -24,99 +24,74 @@ import { UserService } from '../../users/user-service/user.service';
 })
 export class PostUpdateComponent implements OnInit, AfterViewInit {
 
-  @Input() objectId: any;
-  @Output() action = new EventEmitter<any>();
   @ViewChild(DynamicFormComponent, { static: false }) form: DynamicFormComponent;
 
-  post: any;
-  user: any;
-
+  post: IPost;
   config: FieldConfig[] = [
     {
-      type: 'input',
-      label: 'Title',
-      name: 'title',
+      type: 'input', label: 'Title', name: 'title',
       placeholder: 'Enter post title',
       validation: [Validators.required, Validators.minLength(4)]
     },
     {
-      type: 'input',
-      label: 'Body',
-      name: 'body',
+      type: 'input', label: 'Body', name: 'body',
       placeholder: 'Enter post body',
       validation: [Validators.required, Validators.minLength(4)]
     },
     {
-      type: 'input',
-      label: 'Author',
-      name: 'author',
+      type: 'input', label: 'Author', name: 'author',
       placeholder: 'Enter post author',
       validation: [Validators.required, Validators.minLength(4)]
     }
   ];
 
   modalSettings = {
-    title: 'Create an User',
-    footer: 'This component will be for create and update.',
+    title: 'Create a Post',
+    footer: 'This component will be used for create and update.',
     buttons: [
       { name: 'Draft', action: 'draft' },
       { name: 'Save', action: 'save' },
-    ]
+    ],
+    confirm: true
   };
 
-  constructor(private postService: PostService, private userService: UserService) { }
+  constructor(private route: ActivatedRoute, public postService: PostService) {
+    this.route.data.subscribe(({ post }) => this.post = post);
+  }
 
   ngOnInit(): void {
-    if (this.objectId) {
-      this.modalSettings.title = `Update ID ${this.objectId}`;
+    if (this.post.id) {
+      this.modalSettings.title = `Update ID ${this.post.id}`;
       this.modalSettings.buttons = [{ name: 'Update', action: 'save' }];
     }
   }
 
   ngAfterViewInit() {
-    let previousValid = this.form.valid;
-    this.form.changes.subscribe(() => {
-      if (this.form.valid !== previousValid) {
-        previousValid = this.form.valid;
-        this.form.setDisabled('submit', !previousValid);
-      }
-    });
-
-    this.updateForm();
-    // this.form.setDisabled('submit', true);
-    // this.form.setValue('name', 'Carlos Ben');
+    this.updateForm(this.post);
   }
 
-  updateForm() {
-    if (this.objectId) {
-      this.postService.getById(this.objectId).subscribe((post: any) => {
-        this.userService.getById(post.userId).subscribe((user: any) => {
-          this.form.setValue('title', post.title);
-          this.form.setValue('body', post.body);
-          this.form.setValue('author', user.name);
-        }, err => console.error('ERROR ', err));
-      }, err => console.error('ERROR ', err));
-    }
+  updateForm(post: IPost) {
+    this.form.setValue('title', post.title);
+    this.form.setValue('body', post.body);
+    this.form.setValue('author', post.userId);
   }
 
-  submit(value: { [name: string]: any }) {
-    console.log(value);
+  buildReqBody(): IPost {
+    const body: IPost = this.form.value;
+    body.id = this.post.id;
+    return body;
+  }
+
+  save() {
+    if (!this.form.valid) { return; }
+    const method = this.post.id ? 'update' : 'update';
+    this.postService[method](this.buildReqBody()).subscribe();
   }
 
   getModalAction(event: any) {
     switch (event) {
-      case 'save':
-        alert('SAVE SUCCESSFUL');
-        break;
-      case 'draft':
-        alert('DRAFT SUCCESSFUL');
-        break;
-      case 'back':
-        alert('BACK SUCCESSFUL');
-        break;
-      default:
-        this.action.emit(event);
-        break;
+      case 'save': this.save(); break;
+      case 'draft': console.log('DRAFT SUCCESSFUL'); break;
     }
   }
 }
