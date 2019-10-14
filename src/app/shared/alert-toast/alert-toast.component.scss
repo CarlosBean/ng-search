@@ -7,7 +7,6 @@
     align-items: center;
     flex-direction: row;
     box-shadow: var(--shadow-panel);
-    background-color: var(--danger);
     border-radius: 50px;
     -o-border-radius: 50px;
     -moz-border-radius: 50px;
@@ -18,19 +17,23 @@
 }
 
 .success {
-    background-color: var(--success) !important;
+    color: var(--white);
+    background-color: var(--success);
 }
 
 .danger {
-    background-color: var(--danger) !important;
+    color: var(--white);
+    background-color: var(--danger);
 }
 
 .warning {
-    background-color: var(--warning) !important;
+    color: var(--dark);
+    background-color: var(--warning);
 }
 
 .info {
-    background-color: var(--info) !important;
+    color: var(--white);
+    background-color: var(--info);
 }
 
 .icon-alert {
@@ -42,12 +45,7 @@
     height: 66px;
 }
 
-.info-alert h3 {
-    color: var(--white);
-    margin: 0.5em 0;
-}
-
+.info-alert h3,
 .info-alert p {
-    color: var(--white);
     margin: 0.5em 0;
 }
