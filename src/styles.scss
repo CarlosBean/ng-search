@@ -1,6 +1,142 @@
 /* You can add global styles to this file, and also import other style files */
 @import "assets/styles/normalize.css";
-@import "assets/styles/custom.css";
+@import "assets/styles/variables.css";
+@import "assets/styles/variables";
 
 @import '~@angular/material/theming';
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+/* FONT */
+body {
+    font-family: 'Nunito', sans-serif;
+}
+
+.active {
+    background-color: $secondary !important;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* BUTTONS */
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+    display: inline-block;
+    height: 38px;
+    padding: 0 30px;
+    color: $primary;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 38px;
+    letter-spacing: inherit;
+    text-transform: capitalize;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: transparent;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -o-border-radius: 2px;
+    border: transparent;
+    cursor: pointer;
+    outline: 0;
+    transition: background-color .3s, box-shadow .3s;
+}
+
+button:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+input[type="button"]:hover,
+
+button:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus,
+input[type="button"]:focus {
+    outline: 0;
+}
+
+button:active,
+input[type="submit"]:focus,
+input[type="reset"]:focus,
+input[type="button"]:focus {
+    transform: scale(0.98);
+    -webkit-transition-duration: 0.1s;
+    transition-duration: 0.1s;
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+@each $class,
+$bg in $btns {
+    .#{$class} {
+        background-color: $bg;
+        border-color: $bg;
+        color: $light;
+
+        &:focus {
+            background-color: darken($bg, 5%);
+            border-color: darken($bg, 5%);
+        }
+
+        &:hover {
+            background-color: lighten($bg, 5%);
+            border-color: lighten($bg, 5%);
+            box-shadow: var(--shadow-panel);
+        }
+
+        &:disabled {
+            background: var(--gray-400);
+            color: var(--gray-700);
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+    }
+}
+
+/* SPACES UTILS */
+@each $space-k,
+$space-v in $spaces {
+
+    @each $size-k,
+    $size-v in $space-sizes {
+        .#{$space-k}-#{$size-k} {
+            #{$space-v}: #{$size-v};
+        }
+
+        @each $side-k,
+        $side-v in $space-sides {
+            .#{$space-k}#{$side-k}-#{$size-k} {
+                #{$space-v}-#{$side-v}: #{$size-v};
+            }
+        }
+    }
+}
+
+/* MEASURES UTILS */
+@each $prefix,
+$attr in $measures {
+    @each $size in $measure-sizes {
+        .#{$prefix}-#{$size} {
+            @if $size=='auto' {
+                #{$attr}: #{$size} !important;
+            }
+
+            @else {
+                #{$attr}: #{$size}+'%' !important;
+            }
+        }
+    }
+}
