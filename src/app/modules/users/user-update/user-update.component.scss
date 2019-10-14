@@ -1,5 +1,8 @@
 .inner-container {
     padding: 1.5em;
+    margin-top: 1em;
+    background: white;
+    box-shadow: var(--shadow-panel);
 }
 
 ::ng-deep app-dynamic-form form {

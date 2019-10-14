@@ -1,42 +1,37 @@
-import { Component, Input, ViewChild, AfterViewInit, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FieldConfig } from '../../../models/field-config.interface';
 import { DynamicFormComponent } from 'src/app/shared/dynamic-form/dynamic-form.component';
 import { UserService } from '../user-service/user.service';
+import { IUser } from 'src/app/models/user.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-user-update',
   styleUrls: ['./user-update.component.scss'],
   template: `
-  <app-modal [settings]="modalSettings" (action)="getModalAction($event)">
-    <ng-template>
-      <div class="inner-container">
-        <app-dynamic-form
-          [config]="config"
-          #form="dynamicForm"
-          (submit)="submit($event)">
-        </app-dynamic-form>
-      </div>
-    </ng-template>
-  </app-modal>
+    <div class="inner-container">
+      <h2>Create an User</h2>
+      <app-dynamic-form
+        [config]="config"
+        #form="dynamicForm"
+        (submit)="submit($event)">
+      </app-dynamic-form>
+    </div>
   `
 })
-export class UserUpdateComponent implements OnInit, AfterViewInit {
+export class UserUpdateComponent implements AfterViewInit {
 
-  @Input() objectId: any;
-  @Output() action = new EventEmitter<any>();
   @ViewChild(DynamicFormComponent, { static: false }) form: DynamicFormComponent;
-
-  modalSettings = {
-    title: 'Create an User',
-    footer: 'This component will be for create and update.',
-    buttons: [
-      { name: 'Draft', action: 'draft' },
-      { name: 'Save', action: 'save' },
-    ]
-  };
-
+  user: IUser;
   config: FieldConfig[] = [
+    {
+      type: 'img',
+      label: 'Choose your image',
+      name: 'img',
+      placeholder: 'Choose your image wisely',
+      validation: [Validators.required]
+    },
     {
       type: 'input',
       label: 'Username',
@@ -64,16 +59,24 @@ export class UserUpdateComponent implements OnInit, AfterViewInit {
       name: 'website',
       placeholder: 'Enter your website',
       validation: [Validators.required, Validators.minLength(4)]
+    },
+    {
+      type: 'select',
+      label: 'Favourite Food',
+      name: 'food',
+      options: ['Pizza', 'Hot Dogs', 'Knakworstje', 'Coffee'],
+      placeholder: 'Select an option',
+      validation: [Validators.required]
+    },
+    {
+      label: 'Submit',
+      name: 'submit',
+      type: 'button'
     }
   ];
 
-  constructor(private userService: UserService) { }
-
-  ngOnInit(): void {
-    if (this.objectId) {
-      this.modalSettings.title = `Update ID ${this.objectId}`;
-      this.modalSettings.buttons = [{ name: 'Update', action: 'save' }];
-    }
+  constructor(private userService: UserService, private route: ActivatedRoute) {
+    this.route.data.subscribe(({ user }) => this.user = user);
   }
 
   ngAfterViewInit() {
@@ -85,41 +88,25 @@ export class UserUpdateComponent implements OnInit, AfterViewInit {
       }
     });
 
-    this.updateForm();
-    // this.form.setDisabled('submit', true);
-    // this.form.setValue('name', 'Carlos Ben');
+    this.updateForm(this.user);
+  }
+
+  buildReqBody(): IUser {
+    const body: IUser = this.form.value;
+    body.id = this.user.id;
+    return body;
   }
 
   submit(value: { [name: string]: any }) {
-    console.log(value);
+    if (!this.form.valid) { return; }
+    const method = this.user.id ? 'update' : 'update';
+    this.userService[method](this.buildReqBody()).subscribe();
   }
 
-  updateForm() {
-    if (this.objectId) {
-      this.userService.getById(this.objectId).subscribe((user: any) => {
-        this.form.setValue('username', user.username);
-        this.form.setValue('name', user.name);
-        this.form.setValue('email', user.email);
-        this.form.setValue('website', user.website);
-      }, err => console.error('ERROR ', err));
-    }
+  updateForm(user: IUser) {
+    this.form.setValue('username', user.username);
+    this.form.setValue('name', user.name);
+    this.form.setValue('email', user.email);
+    this.form.setValue('website', user.website);
   }
-
-  getModalAction(event: any) {
-    switch (event) {
-      case 'save':
-        alert('SAVE SUCCESSFUL');
-        break;
-      case 'draft':
-        alert('DRAFT SUCCESSFUL');
-        break;
-      case 'back':
-        alert('BACK SUCCESSFUL');
-        break;
-      default:
-        this.action.emit(event);
-        break;
-    }
-  }
-
 }
