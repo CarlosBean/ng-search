@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user-service/user.service';
+import { AlertBoxService } from 'src/app/shared/alert-box/alert-box.service';
 
 @Component({
   selector: 'app-user-list',
   template: `
-    <app-user-update
-      [objectId]="objectId"
-      (action)="openModal = $event"
-      *ngIf="openModal">
-    </app-user-update>
+    <div class="main-header">
+      <h2>Users List</h2>
+      <button routerLink="new">
+        Add new (regular route)
+      </button>
+    </div>
 
     <app-table
       [elementData]="elementData"
@@ -21,36 +23,23 @@ export class UserListComponent implements OnInit {
 
   elementData = [];
   columns = ['id', 'status', 'username', 'name', 'email', 'website', 'action'];
-  openModal = false;
-  objectId = null;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private alertbox: AlertBoxService) { }
 
   ngOnInit() {
-    this.userService.getAll().subscribe(res => {
-      this.elementData = res;
-    }, err => console.error(err));
+    this.userService.getAll().subscribe(data => this.elementData = data);
   }
 
   getTableAction(event: any) {
     switch (event.action) {
-      case 'create':
-        this.openModal = true;
-        this.objectId = null;
-        break;
-      case 'edit':
-        this.openModal = true;
-        this.objectId = event.data;
-        break;
       case 'delete':
-        this.delete(event.data);
+        this.alertbox.show('Delete Operation', 'Do you want to delete this item?');
+        this.alertbox.afterClosed().subscribe(accept => accept && this.delete(event.id));
         break;
     }
   }
 
   delete(id: any) {
-    this.userService.delete(id).subscribe(res => {
-      alert('DELETE SUCCESS');
-    }, err => console.error(err));
+    this.userService.delete(id).subscribe();
   }
 }

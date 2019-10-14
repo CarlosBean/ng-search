@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { PostService } from '../post-service/post.service';
+import { AlertBoxService } from 'src/app/shared/alert-box/alert-box.service';
 
 @Component({
   selector: 'app-post-list',
   template: `
-    <app-post-update
-      [objectId]="objectId"
-      (action)="openModal = $event"
-      *ngIf="openModal">
-    </app-post-update>
+    <div class="main-header">
+      <h2>Posts List</h2>
+      <button [routerLink]="[{ outlets: { popup: 'new' } }]">
+        Add new (route in outlet)
+      </button>
+    </div>
 
     <app-table
       [elementData]="elementData"
@@ -24,33 +26,22 @@ export class PostListComponent implements OnInit {
   openModal = false;
   objectId = null;
 
-  constructor(private postService: PostService) { }
+  constructor(private postService: PostService, private alertbox: AlertBoxService) { }
 
   ngOnInit() {
-    this.postService.getAll().subscribe(res => {
-      this.elementData = res;
-    }, err => console.error(err));
+    this.postService.getAll().subscribe(data => this.elementData = data);
   }
 
   getTableAction(event: any) {
     switch (event.action) {
-      case 'create':
-        this.openModal = true;
-        this.objectId = null;
-        break;
-      case 'edit':
-        this.openModal = true;
-        this.objectId = event.data;
-        break;
       case 'delete':
-        this.delete(event.data);
+        this.alertbox.show('Delete Operation', 'Do you want to delete this item?');
+        this.alertbox.afterClosed().subscribe(accept => accept && this.delete(event.id));
         break;
     }
   }
 
   delete(id: any) {
-    this.postService.delete(id).subscribe(res => {
-      alert('DELETE SUCCESS');
-    }, err => console.error(err));
+    this.postService.delete(id).subscribe();
   }
 }
