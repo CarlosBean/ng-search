@@ -9,7 +9,7 @@ import { LocalStorage, LocalStorageService } from 'ngx-webstorage';
 export class TopbarComponent implements OnInit {
 
   @LocalStorage() searchText: string;
-  placeholder: string;
+  placeholder = '';
 
   constructor(private localStorage: LocalStorageService) { }
 
