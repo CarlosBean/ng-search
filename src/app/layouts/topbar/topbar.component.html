@@ -1,7 +1,7 @@
 <div class="topbar-container">
     <div class="search-input">
-        <i class="fas fa-search fa-fw"></i>
-        <input [(ngModel)]="searchText" [placeholder]="placeholder">
+        <i *ngIf="placeholder" class="fas fa-search fa-fw"></i>
+        <input *ngIf="placeholder" [(ngModel)]="searchText" [placeholder]="placeholder">
     </div>
     <div class="right-menu">
         <button>
