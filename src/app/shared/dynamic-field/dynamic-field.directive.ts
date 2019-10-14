@@ -4,25 +4,30 @@ import { FormGroup } from '@angular/forms';
 
 import { Field } from '../../models/field.interface';
 import { FieldConfig } from '../../models/field-config.interface';
+import { FormButtonComponent } from '../form-button/form-button.component';
+import { FormSelectComponent } from '../form-select/form-select.component';
+import { ImgPreviewComponent } from '../img-preview/img-preview.component';
 
 const components: { [type: string]: Type<Field> } = {
+  button: FormButtonComponent,
   input: FormInputComponent,
+  select: FormSelectComponent,
+  img: ImgPreviewComponent
 };
 
 @Directive({
   selector: '[appDynamicField]'
 })
 export class DynamicFieldDirective implements Field, OnChanges, OnInit {
-  @Input()
-  config: FieldConfig;
-
-  @Input()
-  group: FormGroup;
+  @Input() config: FieldConfig;
+  @Input() group: FormGroup;
 
   component: ComponentRef<Field>;
 
-  constructor(private resolver: ComponentFactoryResolver,
-    private container: ViewContainerRef) { }
+  constructor(
+    private resolver: ComponentFactoryResolver,
+    private container: ViewContainerRef
+  ) { }
 
   ngOnChanges() {
     if (this.component) {
