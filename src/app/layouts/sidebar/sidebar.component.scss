@@ -4,59 +4,50 @@
     padding: 0;
     margin-top: 0;
     margin-bottom: 0;
-}
 
-.sidebar-header {
-    height: 50px;
-    display: flex;
-    align-items: center;
-}
+    &-header {
+        height: 50px;
+        display: flex;
+        align-items: center;
+    }
 
-.sidebar-header h4 {
-    padding: 0 1em;
-    margin: 0;
-}
+    &-item {
+        list-style: none;
+        overflow: hidden;
+    }
 
-.nav-item {
-    list-style: none;
-    overflow: hidden;
-}
+    &-menu-header {
+        display: block;
+        padding: 16px 20px;
+        background-color: var(--primary);
+        color: white;
+        text-decoration: none;
+        cursor: pointer;
 
-.btn {
-    display: block;
-    padding: 16px 20px;
-    background-color: var(--primary);
-    color: white;
-    text-decoration: none;
-    cursor: pointer;
-}
+        .angle {
+            float: right;
+        }
+    }
 
-.btn .icon {
-    margin-right: 10px;
-}
+    &-menu {
+        background-color: var(--white);
+        overflow: hidden;
+        transition: max-height 0.3s;
+        max-height: 0;
+        padding-left: 0;
 
-.btn .angle {
-    float: right;
-}
-
-.submenu {
-    background-color: var(--white);
-    overflow: hidden;
-    transition: max-height 0.3s;
-    max-height: 0;
-    padding-left: 0;
-}
-
-.submenu li {
-    display: block;
-    padding: 16px 26px;
-    text-decoration: none;
-    border-bottom: 1px solid var(--outline);
-    color: var(--dark);
-    font-size: 14px;
-    position: relative;
-    outline: none;
-    cursor: pointer;
+        li {
+            display: block;
+            padding: 16px 26px;
+            text-decoration: none;
+            border-bottom: 1px solid var(--outline);
+            color: var(--dark);
+            font-size: 14px;
+            position: relative;
+            outline: none;
+            cursor: pointer;
+        }
+    }
 }
 
 .activeOption {
@@ -64,11 +55,7 @@
     padding-left: 20px !important;
 }
 
-.activeMenu {
-    opacity: 0.5;
-}
-
-.nav-item.active>.btn {
+.sidebar-item.active>.sidebar-menu-header {
     border-top-color: var(--info);
     background-color: var(--info);
 }

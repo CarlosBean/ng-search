@@ -1,14 +1,14 @@
 <ul class="sidebar" id="sidebar">
     <div class="sidebar-header">
-        <h4>NG SEARCH</h4>
+        <h4 class="m-0 pl-4">NG SEARCH</h4>
     </div>
-    <li class="nav-item" routerLinkActive="active" *ngFor="let menu of menus; let i = index">
-        <div class="btn" (click)="chooseMenu(i)">
-            <i class="icon {{ menu.icon }} fa-sm fa-fw"></i>
+    <li class="sidebar-item" routerLinkActive="active" *ngFor="let menu of menus; let i = index">
+        <div class="sidebar-menu-header" (click)="chooseMenu(i)">
+            <i class="mr-2 {{ menu.icon }} fa-sm fa-fw"></i>
             {{ menu.title }}
             <i class="angle fas fa-angle-right fa-sm fa-fw" [class.fa-rotate-90]="menu.toggled"></i>
         </div>
-        <ul class="submenu" [class.open]="menu.toggled">
+        <ul class="sidebar-menu" [class.open]="menu.toggled">
             <li *ngFor="let option of menu.submenu" [routerLink]="option.route" routerLinkActive="activeOption">
                 {{ option.title }}
             </li>
