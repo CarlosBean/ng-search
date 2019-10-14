@@ -8,6 +8,8 @@ import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { SidebarComponent } from './layouts/sidebar/sidebar.component';
 import { TopbarComponent } from './layouts/topbar/topbar.component';
+import { ErrorInterceptor } from './shared/interceptors/error.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { TopbarComponent } from './layouts/topbar/topbar.component';
     SharedModule,
     AppRoutingModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
