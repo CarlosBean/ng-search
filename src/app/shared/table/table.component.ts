@@ -10,7 +10,7 @@ import { LocalStorageService, LocalStorage } from 'ngx-webstorage';
 })
 export class TableComponent implements OnInit, OnChanges {
 
-  @Input() elementData: any;
+  @Input() elementData: [{}];
   @Input() displayedColumns: string[];
   @Output() action = new EventEmitter<any>();
   @ViewChild('table', { static: false }) table: MatTable<any>;
@@ -25,15 +25,17 @@ export class TableComponent implements OnInit, OnChanges {
   menuButtons = [];
 
   adminMenu = {
-    active: ['edit', 'inactive', 'delete'],
+    active: ['update', 'inactive', 'delete'],
     staging: ['publish', 'delete'],
-    draft: ['edit', 'delete'],
+    draft: ['update', 'delete'],
   };
 
   OAMenu = {
-    pending: ['edit', 'delete'],
-    draft: ['edit', 'delete'],
+    pending: ['update', 'delete'],
+    draft: ['update', 'delete'],
   };
+
+  modulesWithOutlet = ['posts'];
 
   constructor(private router: Router, public localStorage: LocalStorageService) { }
 
@@ -85,7 +87,7 @@ export class TableComponent implements OnInit, OnChanges {
 
     if (role === 1) {
       if (modules.includes(this.getModuleName())) {
-        this.menuButtons = this.adminMenu[status] || ['edit', 'delete'];
+        this.menuButtons = this.adminMenu[status] || ['update', 'delete'];
       }
     } else {
       this.menuButtons = this.OAMenu[status] || ['delete'];
@@ -102,8 +104,19 @@ export class TableComponent implements OnInit, OnChanges {
     return this.router.url.substring(1, this.router.url.length);
   }
 
-  emitAction(action: string, data?: number) {
-    this.action.emit({ action, data });
+  emitAction(action: string, id?: number) {
+    if (action === 'update') {
+      if (this.isOutletRoute()) {
+        this.router.navigate(['/', this.getModuleName(), { outlets: { popup: `update/${id}` } }]);
+      } else {
+        this.router.navigate([`/${this.getModuleName()}/update/${id}`]);
+      }
+    } else {
+      this.action.next({ action, id });
+    }
   }
 
+  isOutletRoute(): boolean {
+    return this.modulesWithOutlet.includes(this.getModuleName());
+  }
 }
