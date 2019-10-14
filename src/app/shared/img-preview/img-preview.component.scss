@@ -1,0 +1,13 @@
+.thumbnail {
+    &-button {
+        height: 131px;
+        border: 1px solid var(--gray-600);
+        line-height: 30px;
+        width: 100%;
+    }
+}
+
+img.inner-image {
+    width: 100%;
+    height: 100%;
+}

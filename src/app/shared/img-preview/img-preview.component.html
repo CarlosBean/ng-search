@@ -1,0 +1,18 @@
+<!-- thumbnail -->
+<div class="thumbnail w-100" [formGroup]="group">
+    <!-- default thumbnail box -->
+    <button type="button" *ngIf="uploadImg" class="thumbnail-button" (click)="input.click()">
+        <!-- <i class="fas fa-upload fa-3x fa-fw"></i> -->
+        <img *ngIf="uploadImg.base64" class="inner-image" [src]="uploadImg.base64" />
+        <i *ngIf="!uploadImg.base64" class="fas fa-image fa-3x fa-fw"></i>
+        <p *ngIf="!uploadImg.base64" class="m-0">{{ config.label }}</p>
+    </button>
+
+    <input #input [hidden]="true" type="file" accept="image/gif, image/jpeg, image/png" (change)="sendImage($event)" />
+
+    <!-- Errors -->
+    <mat-error *ngIf="uploadImg?.error">
+        {{ config.label }} is <strong>required</strong>
+    </mat-error>
+
+</div>
