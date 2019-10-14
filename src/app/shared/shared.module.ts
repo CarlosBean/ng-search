@@ -8,16 +8,25 @@ import { ModalComponent } from './modal/modal.component';
 import { FormInputComponent } from './form-input/form-input.component';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import { DynamicFieldDirective } from './dynamic-field/dynamic-field.directive';
-import { AlertComponent } from './alert/alert.component';
+import { RouterModule } from '@angular/router';
+import { FormButtonComponent } from './form-button/form-button.component';
+import { FormSelectComponent } from './form-select/form-select.component';
+import { ImgPreviewComponent } from './img-preview/img-preview.component';
+import { AlertBoxComponent } from './alert-box/alert-box.component';
+import { AlertToastComponent } from './alert-toast/alert-toast.component';
 
 @NgModule({
     declarations: [
         TableComponent,
         ModalComponent,
         FormInputComponent,
+        FormButtonComponent,
+        FormSelectComponent,
+        ImgPreviewComponent,
         DynamicFormComponent,
         DynamicFieldDirective,
-        AlertComponent
+        AlertToastComponent,
+        AlertBoxComponent
     ],
     imports: [
         CommonModule,
@@ -25,6 +34,7 @@ import { AlertComponent } from './alert/alert.component';
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,
+        RouterModule
     ],
     exports: [
         TableComponent,
@@ -35,18 +45,18 @@ import { AlertComponent } from './alert/alert.component';
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,
-        AlertComponent
+        AlertToastComponent,
+        AlertBoxComponent
     ],
     entryComponents: [
         FormInputComponent,
+        FormButtonComponent,
+        FormSelectComponent,
+        ImgPreviewComponent,
+        AlertBoxComponent,
+        AlertToastComponent
     ],
     providers: [],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class SharedModule {
-    static forRoot() {
-        return {
-            ngModule: SharedModule
-        };
-    }
-}
+export class SharedModule { }
